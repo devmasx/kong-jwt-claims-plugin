@@ -1,0 +1,14 @@
+_format_version: "2.1"
+services:
+  - name: httpbin
+    url: https://httpbin.org/anything
+    routes:
+      - name: httpbin-route
+        paths:
+          - /anything
+        plugins:
+          - name: jwt-claims
+            config:
+              jwt_token_header: x-jwt-token-decoded
+              claim_header_prefix: x-jwt-claim-
+              debug: true
