@@ -1,14 +1,21 @@
 _format_version: "2.1"
 services:
   - name: httpbin
-    url: https://httpbin.org/anything
+    url: https://httpbin.org
     routes:
       - name: httpbin-route
         paths:
-          - /anything
+          - /*
         plugins:
           - name: jwt-claims
             config:
-              jwt_token_header: x-jwt-token-decoded
-              claim_header_prefix: x-jwt-claim-
+              jwt_token_header: X-Jwt-Token-Decoded
+              claim_header_prefix: X-Jwt-Claim-
               debug: true
+
+          - name: rate-limiting
+            config:
+              minute: 3
+              policy: local
+              limit_by: header
+              header_name: X-Jwt-Claim-User-Id
