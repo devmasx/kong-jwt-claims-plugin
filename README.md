@@ -21,6 +21,23 @@ services:
               debug: false
 ```
 
+## Install
+
+Kong load the plugin with environment variable: `KONG_PLUGINS=bundled,jwt-claims` the plugin should be defined in the folder `/usr/local/share/lua/5.1/kong/plugins/jwt-claims`.
+
+Install in a docker image with:
+
+```dockerfile
+FROM kong:3.4.0-ubuntu
+
+ADD --chown=kong https://github.com/devmasx/kong-jwt-claims-plugin/releases/download/v0.1.0/handler.lua \
+  https://github.com/devmasx/kong-jwt-claims-plugin/releases/download/v0.1.0/schema.lua \
+  /usr/local/share/lua/5.1/kong/plugins/jwt-claims/
+
+ENV KONG_PLUGINS=bundled,jwt-claims
+```
+
+Or copy the source code `./plugins/jwt-claims` to folder `/usr/local/share/lua/5.1/kong/plugins/jwt-claims`
 ## Example:
 
 JWT with claims:
@@ -45,3 +62,8 @@ Jwt-claims plugin add the headers:
 }
 ```
 
+### Development
+
+```
+docker compose up --build
+```
